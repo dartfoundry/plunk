@@ -29,6 +29,10 @@ void main() {
 }
 ```
 
+## Use of RestClient library
+
+We are aware `package:rest_client` has been discontinued. We will update this package to either use our own fork of RestClient or another publicly maintained package. We're sorry to see it discontinued.
+
 ## Copyright
 
 This package is Copyright ⓒ 2023 Pocket Business, LLC. All rights reserved.

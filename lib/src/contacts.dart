@@ -6,7 +6,7 @@ your Plunk dashboard. They will automatically be added to your Plunk account
 when they trigger an event on your website or app.
 */
 
-part of plunk;
+part of 'package:plunk/plunk.dart';
 
 class ContactRequest {
   static const resourcePath = 'contacts';

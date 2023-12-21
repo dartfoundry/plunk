@@ -1,4 +1,4 @@
-part of plunk;
+part of 'package:plunk/plunk.dart';
 
 class FieldError {
   String name;

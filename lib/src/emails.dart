@@ -2,7 +2,7 @@
 Sending transactional emails
 */
 
-part of plunk;
+part of 'package:plunk/plunk.dart';
 
 class Contact {
   String? id;

@@ -7,7 +7,7 @@ Events are triggered by a user's actions on your site, such as
 signing up for your newsletter, or making a purchase.
 */
 
-part of plunk;
+part of 'package:plunk/plunk.dart';
 
 class TrackRequest {
   static const resourcePath = 'track';

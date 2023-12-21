@@ -28,36 +28,6 @@ class Plunk {
         _baseUrl = '$baseUrl/$apiVersion',
         _client = Client(timeout: timeout, useIsolate: useIsolate);
 
-  // String _buildQueryString(Map<String, dynamic> queryParameters) {
-  //   var result = StringBuffer();
-  //   var separator = '';
-
-  //   void writeParameter(String key, String? value) {
-  //     result.write(separator);
-  //     separator = '&';
-  //     result.write(Uri.encodeQueryComponent(key));
-
-  //     if (value != null && value.isNotEmpty) {
-  //       result.write('=');
-  //       result.write(Uri.encodeQueryComponent(value));
-  //     }
-  //   }
-
-  //   queryParameters.forEach((key, value) {
-  //     if (value == null || value is String) {
-  //       writeParameter(key, value);
-  //     } else {
-  //       Iterable values = value;
-
-  //       for (String value in values) {
-  //         writeParameter(key, value);
-  //       }
-  //     }
-  //   });
-
-  //   return result.toString();
-  // }
-
   /// Triggers an event and creates it if it doesn't exist.
   /// This endpoint can be accessed with both the public and
   /// private API keys, meaning that you can trigger events
