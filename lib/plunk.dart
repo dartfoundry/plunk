@@ -32,7 +32,7 @@ class Plunk {
   /// This endpoint can be accessed with both the public and
   /// private API keys, meaning that you can trigger events
   /// from both the client and the server.
-  /// Return a [Trackresponse] object containing the success
+  /// Return a [TrackResponse] object containing the success
   /// status, contact ID, event ID, and timestamp.
   Future<TrackResponse> track(String email, String event) async {
     var trackRequest = TrackRequest(email: email, event: event);
@@ -125,7 +125,7 @@ class Plunk {
   /// Get a list of all contacts in your Plunk account.
   /// This endpoint can only be accessed with a secret API key
   /// as it returns sensitive information.
-  /// Returns an array of ContactResponse objects.
+  /// Returns an array of [ContactResponse] objects.
   Future<List<ContactResponse>> contacts() async {
     var request = Request(
       method: RequestMethod.get,
