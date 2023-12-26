@@ -5,11 +5,11 @@ Sending transactional emails
 part of 'package:plunk/plunk.dart';
 
 class Contact {
-  String? id;
-  String? address;
-  String? email;
+  final String? id;
+  final String? address;
+  final String? email;
 
-  Contact({this.id, this.address, this.email});
+  const Contact({this.id, this.address, this.email});
 
   factory Contact.fromJson(String payload) =>
       Contact.fromMap(jsonDecode(payload));
@@ -21,14 +21,15 @@ class Contact {
       );
 }
 
+///
 class SendRequest {
   static const resourcePath = 'send';
 
-  String from, subject, body;
-  List<String> to;
-  String? name;
+  final String body, from, subject;
+  final String? name;
+  final List<String> to;
 
-  SendRequest({
+  const SendRequest({
     required this.from,
     required this.subject,
     required this.body,
@@ -48,11 +49,11 @@ class SendRequest {
 }
 
 class SendResponse {
-  bool? success;
-  List<Contact>? emails;
-  DateTime? timestamp;
+  final bool? success;
+  final List<Contact>? emails;
+  final DateTime? timestamp;
 
-  SendResponse({
+  const SendResponse({
     this.success,
     this.emails,
     this.timestamp,
@@ -71,11 +72,10 @@ class SendResponse {
 }
 
 class SubscriptionResponse {
-  bool? success;
-  String? contact;
-  bool? subscribed;
+  final bool? subscribed, success;
+  final String? contact;
 
-  SubscriptionResponse({
+  const SubscriptionResponse({
     this.success,
     this.contact,
     this.subscribed,
