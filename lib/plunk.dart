@@ -6,13 +6,15 @@ import 'package:rest_client/rest_client.dart';
 
 part 'src/contacts.dart';
 part 'src/emails.dart';
+part 'src/events.dart';
 part 'src/exceptions.dart';
-part 'src/track.dart';
 
+/// Primary API entry class. Instantiate this class to initialize an
+/// API connection, then use it's methods to call API methods.
 class Plunk {
-  String apiKey, apiVersion, baseUrl;
-  Duration timeout;
-  bool? useIsolate;
+  final String apiKey, apiVersion, baseUrl;
+  final Duration timeout;
+  final bool? useIsolate;
 
   final TokenAuthorizer _authorizer;
   final String _baseUrl;
@@ -35,15 +37,15 @@ class Plunk {
   /// Return a [TrackResponse] object containing the success
   /// status, contact ID, event ID, and timestamp.
   Future<TrackResponse> track(String email, String event) async {
-    var trackRequest = TrackRequest(email: email, event: event);
+    final trackRequest = TrackRequest(email: email, event: event);
 
-    var request = Request(
+    final request = Request(
       body: trackRequest.toJson(),
       method: RequestMethod.post,
       url: '$_baseUrl/${TrackRequest.resourcePath}',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -76,7 +78,7 @@ class Plunk {
 
   /// Gets the details of a specific contact.
   /// This endpoint can only be accessed with a secret API key.
-  /// Returns a ContactResponse object containing the contact's
+  /// Returns a [ContactResponse] object containing the contact's
   /// details.
   Future<ContactResponse> contact(String contactId) async {
     if (contactId.isEmpty) {
@@ -86,12 +88,12 @@ class Plunk {
       );
     }
 
-    var request = Request(
+    final request = Request(
       method: RequestMethod.get,
       url: '$_baseUrl/${ContactRequest.resourcePath}/$contactId',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -127,12 +129,12 @@ class Plunk {
   /// as it returns sensitive information.
   /// Returns an array of [ContactResponse] objects.
   Future<List<ContactResponse>> contacts() async {
-    var request = Request(
+    final request = Request(
       method: RequestMethod.get,
       url: '$_baseUrl/${ContactRequest.resourcePath}',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -165,7 +167,7 @@ class Plunk {
     }
   }
 
-  /// Gets the total number of contacts in your Plunk account.
+  /// Fetches the total number of contacts in your Plunk account.
   /// Useful for displaying the number of contacts in a dashboard,
   /// landing page or other marketing material.
   /// This endpoint can be accessed with either a secret API key or
@@ -173,12 +175,12 @@ class Plunk {
   /// Returns an integer representing the amount of contacts in your
   /// Plunk account.
   Future<int> count() async {
-    var request = Request(
+    final request = Request(
       method: RequestMethod.get,
       url: '$_baseUrl/${ContactRequest.resourcePath}/count',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -212,6 +214,7 @@ class Plunk {
   /// Used to create a new contact in your Plunk project without
   /// triggering an event.
   /// This endpoint can only be accessed with a secret API key.
+  /// Returns a [ContactResponse] object.
   Future<ContactResponse> create(
     String email,
     bool subscribed,
@@ -223,13 +226,13 @@ class Plunk {
       data: data,
     );
 
-    var request = Request(
+    final request = Request(
       body: contact.toJson(),
       method: RequestMethod.post,
       url: '$_baseUrl/${ContactRequest.resourcePath}',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -263,14 +266,15 @@ class Plunk {
   /// Updates a contact's subscription status to subscribed.
   /// This endpoint can be accessed with either a secret API
   /// key or a public API key.
+  /// Returns a [SubscriptionResponse] object.
   Future<SubscriptionResponse> subscribe(String contactId) async {
-    var request = Request(
+    final request = Request(
       body: jsonEncode({'id': contactId}),
       method: RequestMethod.post,
       url: '$_baseUrl/${ContactRequest.resourcePath}/subscribe',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -304,14 +308,15 @@ class Plunk {
   /// Updates a contact's subscription status to unsubscribed.
   /// This endpoint can be accessed with either a secret API
   /// key or a public API key.
+  /// Returns a [SubscriptionResponse] object.
   Future<SubscriptionResponse> unsubscribe(String contactId) async {
-    var request = Request(
+    final request = Request(
       body: jsonEncode({'id': contactId}),
       method: RequestMethod.post,
       url: '$_baseUrl/${ContactRequest.resourcePath}/unsubscribe',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -348,6 +353,7 @@ class Plunk {
   /// This could be a password reset email, a billing email or other
   /// non-marketing emails.
   /// This endpoint can only be accessed with a secret key.
+  /// Returns a [SendResponse] object.
   Future<SendResponse> send(
     String from,
     List<String> to,
@@ -355,22 +361,21 @@ class Plunk {
     String body,
     String? name,
   ) async {
-    var sendRequest = SendRequest(
+    final sendRequest = SendRequest(
       from: from,
       to: to,
       subject: subject,
       body: body,
+      name: name,
     );
 
-    if (name != null && name.isNotEmpty) sendRequest.name = name;
-
-    var request = Request(
+    final request = Request(
       body: sendRequest.toJson(),
       method: RequestMethod.post,
       url: '$_baseUrl/${SendRequest.resourcePath}',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
@@ -403,16 +408,17 @@ class Plunk {
 
   /// Deletes a contact.
   /// This endpoint can only be accessed with a secret API key.
-  /// It returns the data how it was at the time of deletion,
-  /// after the request the data is fully gone from your Plunk dashboard.
+  /// It returns the data how it was at the time of deletion, as a
+  /// [ContactResponse] object.
+  /// After the request the data is removed from your Plunk dashboard.
   Future<ContactResponse> delete(String contactId) async {
-    var request = Request(
+    final request = Request(
       body: jsonEncode({'id': contactId}),
       method: RequestMethod.delete,
       url: '$_baseUrl/${ContactRequest.resourcePath}',
     );
 
-    var response = await _client.execute(
+    final response = await _client.execute(
       authorizer: _authorizer,
       request: request,
     );
