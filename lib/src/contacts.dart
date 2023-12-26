@@ -8,14 +8,15 @@ when they trigger an event on your website or app.
 
 part of 'package:plunk/plunk.dart';
 
+/// Class used to wrap a json request for a contact.
 class ContactRequest {
   static const resourcePath = 'contacts';
 
-  bool? subscribed;
-  String? email;
-  Map<String, dynamic>? data;
+  final bool? subscribed;
+  final String? email;
+  final Map<String, dynamic>? data;
 
-  ContactRequest({this.email, this.subscribed, this.data});
+  const ContactRequest({this.email, this.subscribed, this.data});
 
   String toJson() => jsonEncode(toMap());
 
@@ -26,16 +27,14 @@ class ContactRequest {
       };
 }
 
+/// Class used to unwrap a json response from a [ContactRequest].
 class ContactResponse {
-  bool? success;
-  String? id;
-  String? email;
-  bool? subscribed;
-  Map<String, dynamic>? data;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  final bool? subscribed, success;
+  final String? email, id;
+  final Map<String, dynamic>? data;
+  final DateTime? createdAt, updatedAt;
 
-  ContactResponse({
+  const ContactResponse({
     this.success,
     this.id,
     this.email,

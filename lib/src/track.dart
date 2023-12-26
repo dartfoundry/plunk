@@ -9,25 +9,26 @@ signing up for your newsletter, or making a purchase.
 
 part of 'package:plunk/plunk.dart';
 
+/// Class used to wrap a json request to post a track event.
 class TrackRequest {
   static const resourcePath = 'track';
 
-  String? email, event;
+  final String? email, event;
 
-  TrackRequest({this.email, this.event});
+  const TrackRequest({this.email, this.event});
 
   String toJson() => jsonEncode(toMap());
 
   Map<String, dynamic> toMap() => {'email': email, 'event': event};
 }
 
+/// Class used to unwrap a json response from a [TrackRequest].
 class TrackResponse {
-  bool? success;
-  String? contact;
-  String? event;
-  DateTime? timestamp;
+  final bool? success;
+  final String? contact, event;
+  final DateTime? timestamp;
 
-  TrackResponse({
+  const TrackResponse({
     this.success,
     this.contact,
     this.event,

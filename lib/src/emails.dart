@@ -4,6 +4,7 @@ Sending transactional emails
 
 part of 'package:plunk/plunk.dart';
 
+/// Class used to unwrap contacts embedded as json in a [SendResponse].
 class Contact {
   final String? id;
   final String? address;
@@ -21,7 +22,7 @@ class Contact {
       );
 }
 
-///
+/// Class used to wrap a json request to send transactional email.
 class SendRequest {
   static const resourcePath = 'send';
 
@@ -48,6 +49,7 @@ class SendRequest {
       };
 }
 
+/// Class used to unwrap a json response from a [SendRequest].
 class SendResponse {
   final bool? success;
   final List<Contact>? emails;
@@ -71,6 +73,7 @@ class SendResponse {
       );
 }
 
+/// Class used to unwrap a json response from a subscribe or unsubscribe request.
 class SubscriptionResponse {
   final bool? subscribed, success;
   final String? contact;
