@@ -1,10 +1,10 @@
 /*
-Events
+  Events
 
-Events are the power behind Plunk's email marketing automations. 
-They are the triggers that start your automations. 
-Events are triggered by a user's actions on your site, such as 
-signing up for your newsletter, or making a purchase.
+  Events are the power behind Plunk's email marketing automations. 
+  They are the triggers that start your automations. 
+  Events are triggered by a user's actions on your site, such as 
+  signing up for your newsletter, or making a purchase.
 */
 
 part of 'package:plunk/plunk.dart';
