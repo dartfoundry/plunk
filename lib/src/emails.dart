@@ -1,5 +1,5 @@
 /*
-Sending transactional emails
+  Classes for sending transactional emails.
 */
 
 part of 'package:plunk/plunk.dart';

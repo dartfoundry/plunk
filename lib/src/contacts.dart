@@ -1,9 +1,9 @@
 /*
-Contacts
+  Contacts
 
-Your contacts are all users, subscribers and customers that are present in 
-your Plunk dashboard. They will automatically be added to your Plunk account 
-when they trigger an event on your website or app.
+  Your contacts are all users, subscribers and customers that are present in 
+  your Plunk dashboard. They will automatically be added to your Plunk account 
+  when they trigger an event on your website or app.
 */
 
 part of 'package:plunk/plunk.dart';
