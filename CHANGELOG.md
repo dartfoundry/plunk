@@ -1,3 +1,7 @@
+## 2.0.1 - Apr 29, 2025
+
+- Updated README.me
+
 ## 2.0.0 - Jan 25, 2025
 
 - Transferred ownership to DartFoundry at [pub.dev](https://pub.dev/packages/plunk) and [github.com](https://github.com/dartfoundry/plunk).
