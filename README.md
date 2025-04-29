@@ -1,8 +1,28 @@
 # Plunk REST Client
 
-The `plunk` package is a REST client for the [Plunk](https://www.useplunk.com) email platform for SaaS.
+[![pub package](https://img.shields.io/pub/v/plunk.svg)](https://pub.dev/packages/plunk)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-The Plunk REST Client is maintained by Pocket Business where it is used by the Pocket Business m-commerce platform and it's brands to send emails to merchants and customers.
+Email remains one of the most effective channels for communicating with users, whether you're sending transactional messages, marketing campaigns, or important notifications. For Dart and Flutter developers looking to integrate robust email capabilities into their applications, this Plunk library offers a comprehensive solution that's easy to use and packed with features.
+
+[Plunk](https://www.useplunk.com) is a modern email platform designed specifically for SaaS applications. It provides powerful tools for sending transactional emails, managing contacts, and running email marketing campaigns. The plunk package is a Dart client that makes it easy to integrate with the Plunk API in your Dart or Flutter applications.
+
+The `plunk` package is a REST client for the Plunk email platform for SaaS. This client is based on the published [Plunk API](https://docs.useplunk.com/api-reference).
+
+The Plunk REST Client is maintained by [DartFoundry](https://dartfoundry.com) where it is used by the Hypermodern AI platform and products to send emails on behalf of partners and to customers.
+
+To learn more about this library, read our article [Introducing the Plunk Email Library for Dart Developers](https://medium.com/dartfoundry/introducing-the-plunk-email-library-for-dart-developers).
+
+> [!IMPORTANT]
+> This library has been updated to support the latest Plunk API and as a result has **BREAKING CHANGES**. Please refer to the [CHANGELOG](CHANGELOG.md) for a list of changes.
+
+## Features
+
+- **Contact Management**: Create, retrieve, update, and delete contacts
+- **Email Sending**: Send transactional emails with customizable headers and content
+- **Event Tracking**: Track user events and activities
+- **Campaign Management**: Create, manage, and send email campaigns
+- **Subscription Control**: Manage subscription preferences for contacts
 
 ## Getting Started
 
@@ -10,42 +30,195 @@ Add the Plunk client package to your `pubspec.yaml`:
 
 ```yaml
   dependencies:
-    plunk: ^1.0.0
+    plunk: ^2.0.0
 ```
 
-## Usage
+Then run:
 
-Import the Plunk package in your code:
+```bash
+dart pub get
+```
+
+## Quick Start
+
+Initialize the client with your API key and start using Plunk's features:
 
 ```dart
 import 'package:plunk/plunk.dart';
 
-void main() {
+void main() async {
   final plunk = Plunk(apiKey: 'YOUR_API_KEY');
 
-  ContactResponse contact = await plunk.contact('test');
+  // Send a transactional email
+  final response = await plunk.sendEmail(
+    to: ['recipient@example.com'],
+    subject: 'Welcome to Our Service',
+    body: '<h1>Welcome!</h1><p>Thank you for signing up.</p>',
+    from: 'support@yourcompany.com',
+    name: 'Your Company',
+  );
 
-  print(contact.id); // test
+  print('Email sent: ${response.success}');
 }
 ```
 
-## API Methods
-Method | Input | Output | Description
---- | --- | --- | ---
-`track` | `String` email, `String` event | `TrackResponse` | Triggers an event and creates it if it doesn't exist.
-`contact` | `String` contactId | `ContactResponse` | Gets the details of a specific contact.
-`contacts` | | `List<ContactResponse>` | Get a list of all contacts in your Plunk account.
-`count` | | `int` | Gets the total number of contacts in your Plunk account.
-`create` | `String` email, `bool` subscribed, `Map<String, dynamic>` data | `ContactResponse` | Used to create a new contact in your Plunk project without triggering an event.
-`subscribe` | `String` contactId | `SubscriptionResponse` | Updates a contact's subscription status to subscribed.
-`unsubscribe` | `String` contactId | `SubscriptionResponse` | Updates a contact's subscription status to unsubscribed.
-`send` | `String` from, `List<String>` to, `String` subject, `String` body, `String?` name | `SendResponse` | Used to send transactional emails to a single recipient or multiple recipients at once.
-`delete` | `String` contactId | `ContactResponse` | Deletes a contact.
+## Usage Examples
 
-## Use of RestClient library
+### Contact Management
 
-We are aware `package:rest_client` has been discontinued. We will update this package to either use our own fork of RestClient or another publicly maintained package. We're sorry to see it discontinued.
+```dart
+// Create a new contact
+final contact = await plunk.createContact(
+  email: 'user@example.com',
+  subscribed: true,
+  data: {
+    'firstName': 'John',
+    'lastName': 'Doe',
+    'plan': 'premium',
+  },
+);
+
+// Get a contact by ID
+final retrievedContact = await plunk.getContact(id: contact.id!);
+
+// Update a contact
+await plunk.updateContact(
+  id: contact.id,
+  subscribed: true,
+  data: {
+    'plan': 'enterprise',
+    'lastLogin': DateTime.now().toIso8601String(),
+  },
+);
+
+// Delete a contact
+await plunk.deleteContact(id: contact.id!);
+```
+
+### Subscription Management
+
+```dart
+// Subscribe a contact
+await plunk.subscribeContact(email: 'user@example.com');
+
+// Unsubscribe a contact
+await plunk.unsubscribeContact(email: 'user@example.com');
+```
+
+### Event Tracking
+
+```dart
+// Track a user event
+await plunk.trackEvent(
+  email: 'user@example.com',
+  event: 'completed_purchase',
+  data: {
+    'product': 'Premium Plan',
+    'amount': 99.99,
+    'currency': 'USD',
+  },
+);
+```
+
+### Email Campaigns
+
+```dart
+// Create a campaign
+final campaign = await plunk.createCampaign(
+  subject: 'New Feature Announcement',
+  body: '<h1>Exciting News!</h1><p>We just launched a new feature...</p>',
+  recipients: ['user1@example.com', 'user2@example.com'],
+  style: CampaignStyle.html,
+);
+
+// Send the campaign
+await plunk.sendCampaign(
+  id: campaign.id!,
+  live: true,
+);
+```
+
+## API Reference
+
+### Contact Methods
+
+| Method | Description |
+|--------|-------------|
+| `getContact()` | Retrieves a specific contact by ID |
+| `getAllContacts()` | Gets all contacts in your Plunk account |
+| `getContactCount()` | Gets the total number of contacts |
+| `createContact()` | Creates a new contact |
+| `updateContact()` | Updates an existing contact |
+| `deleteContact()` | Deletes a contact |
+| `subscribeContact()` | Sets a contact's subscription status to subscribed |
+| `unsubscribeContact()` | Sets a contact's subscription status to unsubscribed |
+
+### Email Methods
+
+| Method | Description |
+|--------|-------------|
+| `sendEmail()` | Sends a transactional email to one or more recipients |
+| `trackEvent()` | Tracks an event for a specific contact |
+
+### Campaign Methods
+
+| Method | Description |
+|--------|-------------|
+| `createCampaign()` | Creates a new email campaign |
+| `updateCampaign()` | Updates an existing campaign |
+| `deleteCampaign()` | Deletes a campaign |
+| `sendCampaign()` | Sends a campaign to its recipients |
+
+## Error Handling
+
+The library provides specific exception types to handle different error scenarios:
+
+```dart
+try {
+  await plunk.sendEmail(/* ... */);
+} catch (e) {
+  if (e is PlunkInvalidRequestException) {
+    print('Invalid request: ${e.message}');
+  } else if (e is PlunkAuthorizationException) {
+    print('Authorization error: ${e.message}');
+  } else if (e is PlunkQuotaException) {
+    print('Quota exceeded: ${e.message}');
+  } else if (e is PlunkUnknownException) {
+    print('Unknown error: ${e.message}');
+  }
+}
+```
+
+## Configuration
+
+The Plunk client can be configured with several options:
+
+```dart
+final plunk = Plunk(
+  apiKey: 'YOUR_API_KEY',
+  apiVersion: 'v1',
+  baseUrl: 'https://api.useplunk.com',
+  timeout: Duration(seconds: 60),
+);
+```
+
+## Requirements
+
+- Dart SDK 3.0.0 or higher
+
+## Learn More
+
+- [Plunk Documentation](https://docs.useplunk.com/)
+- [Plunk API Reference](https://docs.useplunk.com/api-reference)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This package is licensed under the BSD 3-Clause License - see the LICENSE file for details.
 
 ## Copyright
 
-This package is Copyright ⓒ 2023 Pocket Business, LLC. All rights reserved.
+This package is Copyright ⓒ 2025 Hypermodern Ltd Co. All rights reserved.

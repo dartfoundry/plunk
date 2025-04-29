@@ -13,14 +13,22 @@ class ContactRequest {
   static const resourcePath = 'contacts';
 
   final bool? subscribed;
+
+  /// The ID of the contact. If the contact already exists, the ID will be
+  /// returned. If the contact is new, a new ID will be generated.
+  final String? id;
+
+  /// The email of the contact.
   final String? email;
+
   final Map<String, dynamic>? data;
 
-  const ContactRequest({this.email, this.subscribed, this.data});
+  const ContactRequest({this.id, this.email, this.subscribed, this.data});
 
   String toJson() => jsonEncode(toMap());
 
   Map<String, dynamic> toMap() => {
+        'id': id,
         'email': email,
         'subscribed': subscribed,
         'data': data,

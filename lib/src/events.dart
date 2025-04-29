@@ -13,13 +13,25 @@ part of 'package:plunk/plunk.dart';
 class TrackRequest {
   static const resourcePath = 'track';
 
-  final String? email, event;
+  final String email, event;
+  final bool subscribed;
+  final Map<String, dynamic> data;
 
-  const TrackRequest({this.email, this.event});
+  const TrackRequest({
+    required this.email,
+    required this.event,
+    this.subscribed = true,
+    this.data = const <String, dynamic>{},
+  });
 
   String toJson() => jsonEncode(toMap());
 
-  Map<String, dynamic> toMap() => {'email': email, 'event': event};
+  Map<String, dynamic> toMap() => {
+        'email': email,
+        'event': event,
+        'subscribed': subscribed,
+        'data': data,
+      };
 }
 
 /// Class used to unwrap a json response from a [TrackRequest].

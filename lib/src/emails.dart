@@ -26,33 +26,46 @@ class Contact {
 class SendRequest {
   static const resourcePath = 'send';
 
-  final String body, from, subject;
-  final String? name;
+  final String body, subject;
+  final String? from, name, reply;
   final List<String> to;
+  final bool subscribed;
+  final Map<String, dynamic> headers;
 
   const SendRequest({
-    required this.from,
+    required this.to,
     required this.subject,
     required this.body,
-    required this.to,
+    this.subscribed = false,
     this.name,
+    this.from,
+    this.reply,
+    this.headers = const <String, dynamic>{},
   });
 
   String toJson() => jsonEncode(toMap());
 
   Map<String, dynamic> toMap() => {
-        'from': from,
+        'to': to,
         'subject': subject,
         'body': body,
-        'to': to,
+        'subscribed': subscribed,
         'name': name,
+        'from': from,
+        'reply': reply,
+        'headers': headers,
       };
 }
 
 /// Class used to unwrap a json response from a [SendRequest].
 class SendResponse {
+  /// Indicates whether the call was successful.
   final bool? success;
-  final List<Contact>? emails;
+
+  /// The list of contacts and the email identifiers sent to.
+  final List<Email>? emails;
+
+  /// The timestamp of the event.
   final DateTime? timestamp;
 
   const SendResponse({
@@ -66,10 +79,28 @@ class SendResponse {
 
   factory SendResponse.fromMap(Map<String, dynamic> map) => SendResponse(
         success: map['success'],
-        emails: List<Contact>.from(
-          map['emails'].map((email) => Contact.fromMap(email)),
+        emails: List<Email>.from(
+          map['emails'].map((email) => Email.fromMap(email)),
         ).toList(),
         timestamp: DateTime.tryParse(map['timestamp']),
+      );
+}
+
+class Email {
+  /// The contact the email was sent to.
+  final Contact? contact;
+
+  /// The ID of the email.
+  final String? email;
+
+  const Email({
+    this.contact,
+    this.email,
+  });
+
+  factory Email.fromMap(Map<String, dynamic> map) => Email(
+        contact: Contact.fromMap(map['contact']),
+        email: map['email'],
       );
 }
 
