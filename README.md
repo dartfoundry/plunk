@@ -221,4 +221,4 @@ This package is licensed under the BSD 3-Clause License - see the LICENSE file f
 
 ## Copyright
 
-This package is Copyright ⓒ 2025 Hypermodern Ltd Co. All rights reserved.
+This package is Copyright ⓒ 2025 Dom Jocubeit. All rights reserved.
