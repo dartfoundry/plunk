@@ -1,6 +1,6 @@
 name: plunk
 description: Dart and Flutter REST API client library for the Plunk email platform for SaaS. Visit useplunk.com to create an account.
-version: 2.0.0
+version: 2.0.1
 homepage: https://useplunk.com
 repository: https://github.com/dartfoundry/plunk
 
