@@ -11,7 +11,7 @@ The `plunk` package is a REST client for the Plunk email platform for SaaS. This
 
 The Plunk REST Client is maintained by [DartFoundry](https://dartfoundry.com) where it is used by the Hypermodern AI platform and products to send emails on behalf of partners and to customers.
 
-To learn more about this library, read our article [Introducing the Plunk Email Library for Dart Developers](https://medium.com/dartfoundry/introducing-the-plunk-email-library-for-dart-developers-70f4cad9ea4f).
+To learn more about this library, read our article [Introducing the Plunk Email Library for Dart Developers](https://medium.com/dartfoundry/70f4cad9ea4f).
 
 > [!IMPORTANT]
 > This library has been updated to support the latest Plunk API and as a result has **BREAKING CHANGES**. Please refer to the [CHANGELOG](CHANGELOG.md) for a list of changes.
@@ -30,7 +30,7 @@ Add the Plunk client package to your `pubspec.yaml`:
 
 ```yaml
   dependencies:
-    plunk: ^2.0.0
+    plunk: ^2.0.2
 ```
 
 Then run:

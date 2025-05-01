@@ -1,3 +1,10 @@
+## 2.0.2 - May 01, 2025
+
+- Updated client.dart formatting to meet static analysis requirements.
+- Removed melos artifacts.
+- Added `ignore_for_file` directive to ignore overridden fields.
+- Added `annotate_overrides` directive to ignore annotate_overrides warning.
+
 ## 2.0.1 - Apr 29, 2025
 
 - Updated README.me

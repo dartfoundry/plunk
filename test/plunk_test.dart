@@ -1,10 +1,10 @@
+// ignore_for_file: overridden_fields
+
 import 'dart:convert';
 
 import 'package:plunk/plunk.dart';
-import 'package:plunk/src/client/client.dart';
 import 'package:plunk/src/client/request.dart';
 import 'package:plunk/src/client/request_method.dart';
-import 'package:plunk/src/client/response.dart';
 import 'package:plunk/src/client/token_authorizer.dart';
 import 'package:test/test.dart';
 
@@ -14,6 +14,7 @@ class MockPlunk extends Plunk {
   final MockClient mockClient = MockClient();
 
   // Need to override all private fields that we need access to
+  // ignore: annotate_overrides
   late String baseUrl;
   late TokenAuthorizer authorizer;
 
